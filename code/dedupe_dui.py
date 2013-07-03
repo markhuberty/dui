@@ -32,6 +32,15 @@ settings_file = 'alc_dedupe_settings.json'
 training_file = 'alc_dedupe_training.json'
 output_file = '../data/alc_dedupe_output.csv'
 
+# Some potential year distance functions for DOB
+def yearsDistance(y1, y2):
+    return abs(y1 - y2)
+
+def sameYear(y1, y2):
+    if y1 == y2:
+        return 1
+    return 0
+
 def readDataFrame(df):
     data_d = {}
 
@@ -41,10 +50,12 @@ def readDataFrame(df):
         name_first = dfrow['subfirstname'].lower()
         name_last = dfrow['sublastname'].lower()
         name_mi = dfrow['submi'].lower()
+        # year = dfrow['birth_year']
 
         row_out['first'] = name_first
         row_out['last'] =  name_last
         row_out['mi'] = name_mi
+        # row_out['birth_year'] = year
 
         row_tuple = [(k, v) for (k, v) in row_out.items()]
         data_d[idx] = dedupe.core.frozendict(row_tuple)
@@ -88,7 +99,8 @@ else:
 
     fields = {'first': {'type': 'String'},
               'last': {'type': 'String'},
-              'mi':{'type': 'String'}
+              'mi':{'type': 'String'}# ,
+              # 'birth_year': {'type': 'Custom', 'comparator': sameYear}
               }
 
     # Create a new deduper object and pass our data model to it.
