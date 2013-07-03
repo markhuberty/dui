@@ -1,0 +1,5 @@
+This folder expects a file called alcdata.csv that contains the original, full file.
+
+If you run the clean.py file, it will subset out only the name data and write back into here.
+
+The output file is then written here by the dedupe program at the end.
